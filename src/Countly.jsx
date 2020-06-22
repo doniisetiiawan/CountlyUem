@@ -44,21 +44,18 @@ class Countly extends React.Component {
     super(props);
 
     this.state = {
-      tally: store.getTally(),
+      tally: store.getState(),
+      unsubscribe: store.subscribe(this.updateState),
     };
   }
 
-  componentDidMount = () => {
-    store.addChangeListener(this.updateState);
-  };
-
   componentWillUnmount = () => {
-    store.removeChangeListener(this.updateState);
+    this.state.unsubscribe();
   };
 
   updateState = () => {
     this.setState({
-      tally: store.getTally(),
+      tally: store.getState(),
     });
   };
 
