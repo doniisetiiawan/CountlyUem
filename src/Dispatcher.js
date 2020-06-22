@@ -1,7 +1,12 @@
 class Dispatcher {
   constructor() {
     this.isDispatching = false;
+    this.actionHandlers = [];
   }
+
+  register = (actionHandler) => {
+    this.actionHandlers.push(actionHandler);
+  };
 
   dispatch = (action) => {
     if (this.isDispatching) {
@@ -10,7 +15,9 @@ class Dispatcher {
       );
     }
     this.isDispatching = true;
-    // TODO: Pass to Stores
+
+    this.actionHandlers.forEach((handler) => handler(action));
+
     this.isDispatching = false;
   };
 }
