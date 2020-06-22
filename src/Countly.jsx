@@ -6,6 +6,7 @@ import {
   View,
 } from 'react-native';
 import { increment, decrement, zero } from './actions';
+import TallyStore from './TallyStore';
 
 const styles = StyleSheet.create({
   container: {
@@ -38,31 +39,57 @@ const styles = StyleSheet.create({
   },
 });
 
-function Countly() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.appName}>Countly</Text>
-      <Text style={styles.tally}>Tally: 0</Text>
-      <TouchableOpacity
-        onPress={increment}
-        style={styles.button}
-      >
-        <Text style={styles.buttonText}>+</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={decrement}
-        style={styles.button}
-      >
-        <Text style={styles.buttonText}>-</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={zero}
-        style={styles.button}
-      >
-        <Text style={styles.buttonText}>0</Text>
-      </TouchableOpacity>
-    </View>
-  );
+class Countly extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      tally: TallyStore.getTally(),
+    };
+  }
+
+  componentDidMount = () => {
+    TallyStore.addChangeListener(this.updateState);
+  };
+
+  componentWillUnmount = () => {
+    TallyStore.removeChangeListener(this.updateState);
+  };
+
+  updateState = () => {
+    this.setState({
+      tally: TallyStore.getTally(),
+    });
+  };
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.appName}>Countly</Text>
+        <Text style={styles.tally}>
+          Tally: {this.state.tally.count}
+        </Text>
+        <TouchableOpacity
+          onPress={increment}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>+</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={decrement}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>-</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={zero}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>0</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 }
 
 export default Countly;
