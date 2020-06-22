@@ -6,7 +6,7 @@ import {
   View,
 } from 'react-native';
 import { increment, decrement, zero } from './actions';
-import TallyStore from './store';
+import store from './store';
 
 const styles = StyleSheet.create({
   container: {
@@ -44,21 +44,21 @@ class Countly extends React.Component {
     super(props);
 
     this.state = {
-      tally: TallyStore.getTally(),
+      tally: store.getTally(),
     };
   }
 
   componentDidMount = () => {
-    TallyStore.addChangeListener(this.updateState);
+    store.addChangeListener(this.updateState);
   };
 
   componentWillUnmount = () => {
-    TallyStore.removeChangeListener(this.updateState);
+    store.removeChangeListener(this.updateState);
   };
 
   updateState = () => {
     this.setState({
-      tally: TallyStore.getTally(),
+      tally: store.getTally(),
     });
   };
 
@@ -70,19 +70,19 @@ class Countly extends React.Component {
           Tally: {this.state.tally.count}
         </Text>
         <TouchableOpacity
-          onPress={increment}
+          onPress={() => store.dispatch(increment())}
           style={styles.button}
         >
           <Text style={styles.buttonText}>+</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={decrement}
+          onPress={() => store.dispatch(decrement())}
           style={styles.button}
         >
           <Text style={styles.buttonText}>-</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={zero}
+          onPress={() => store.dispatch(zero())}
           style={styles.button}
         >
           <Text style={styles.buttonText}>0</Text>
