@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { increment, decrement, zero } from './actions';
 
 const styles = StyleSheet.create({
   container: {
@@ -42,13 +43,22 @@ function Countly() {
     <View style={styles.container}>
       <Text style={styles.appName}>Countly</Text>
       <Text style={styles.tally}>Tally: 0</Text>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity
+        onPress={increment}
+        style={styles.button}
+      >
         <Text style={styles.buttonText}>+</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity
+        onPress={decrement}
+        style={styles.button}
+      >
         <Text style={styles.buttonText}>-</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity
+        onPress={zero}
+        style={styles.button}
+      >
         <Text style={styles.buttonText}>0</Text>
       </TouchableOpacity>
     </View>
