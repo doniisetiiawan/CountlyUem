@@ -6,7 +6,7 @@ import {
   View,
 } from 'react-native';
 import { increment, decrement, zero } from './actions';
-import TallyStore from './TallyStore';
+import TallyStore from './store';
 
 const styles = StyleSheet.create({
   container: {
